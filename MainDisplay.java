@@ -1,8 +1,9 @@
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.awt.event.*;
 
-class MainDisplay extends JFrame{
+class MainDisplay extends JFrame implements ActionListener{
 
     JLabel tabLabel;
     JLabel buttonLabel;
@@ -36,24 +37,24 @@ MainDisplay(){
     tabPanel = new JPanel();
     tabArea = new JTextArea("Hello");
     
-    button1 = new JButton("Button");
-    button2 = new JButton("Button");
-    button3 = new JButton("Button");
-    button4 = new JButton("Button");
-    button5 = new JButton("Button");
+    button1 = new JButton("Start Tabbing");
+    button2 = new JButton("Stop Tabbing");
+    button3 = new JButton("Edit Tab");
+    button4 = new JButton("Clear Tab");
+    button5 = new JButton("Add to Tab");
 
     menuBar = new JMenuBar();
     fileMenu = new JMenu("File");
     optionsMenu = new JMenu("Options");
     audioMenu = new JMenu("Audio Settings");
 
-    fileMenu.add(createMenuItem("New File"));
-    fileMenu.add(createMenuItem("Open File"));
-    fileMenu.add(createMenuItem("Save File"));
-
-    optionsMenu.add(createMenuItem("Settings"));
-
-    audioMenu.add(createMenuItem("Choose Audio Source"));
+    fileMenu.add(createNewItem("New File","NEWFILE",this, KeyEvent.VK_N, KeyEvent.VK_N, "Create a new a file."));
+    fileMenu.add(createNewItem("Open File","OPENFILE",this, KeyEvent.VK_O, KeyEvent.VK_O, "Open a file."));
+    fileMenu.add(createNewItem("Save File","SAVEFILE",this, KeyEvent.VK_S, KeyEvent.VK_S, "Save an existing file."));
+    
+    optionsMenu.add(createNewItem("Settings","OPENSETTINGS",this, KeyEvent.VK_Q, KeyEvent.VK_Q, "Open the settings window."));
+    
+    audioMenu.add(createNewItem("Audio Source","AUDIOSOURCE",this, KeyEvent.VK_A, KeyEvent.VK_A, "Open the audio source window."));
     
     menuBar.add(fileMenu);
     menuBar.add(optionsMenu);
@@ -74,7 +75,7 @@ MainDisplay(){
     constraints.gridx = 0;
     constraints.gridy = 1;
     constraints.weighty = .9;
-    constraints.ipadx = 500;
+    constraints.ipadx = 750;
     constraints.ipady = 500;
     tabPanel.add(tabArea,constraints);
 
@@ -171,8 +172,43 @@ void setupMainFrame(int xScreenPercentage,
 
 }  // end of setupMainFrame()
 
-JMenuItem createMenuItem(String menuName){
-    return new JMenuItem(menuName);
+private JMenuItem createNewItem(String name,
+						  String actCom,
+						  ActionListener menuListener,
+						  int mnemonic,
+						  int keyCode,
+						  String toolTipText)
+{
+	JMenuItem item;												//create menu items
+
+	item = new JMenuItem(name,mnemonic);
+	item.setAccelerator(KeyStroke.getKeyStroke(keyCode, KeyEvent.ALT_DOWN_MASK));
+	item.setToolTipText(toolTipText);
+	item.setActionCommand(actCom);
+	item.addActionListener(menuListener);
+
+	return item;
 }
 
+public void actionPerformed(ActionEvent ae){
+    
+    if(ae.getActionCommand().equals("NEWFILE")){
+        System.out.println(ae.getActionCommand());
+    }
+    if(ae.getActionCommand().equals("OPENFILE")){
+        System.out.println(ae.getActionCommand());
+    }
+    if(ae.getActionCommand().equals("SAVEFILE")){
+        System.out.println(ae.getActionCommand());
+    }
+    if(ae.getActionCommand().equals("OPENSETTINGS")){
+        System.out.println(ae.getActionCommand());
+    }
+    if(ae.getActionCommand().equals("AUDIOSOURCE")){
+        System.out.println(ae.getActionCommand());
+        AudioSourceWindow asw = new AudioSourceWindow();
+    }
+
+
+}
 }

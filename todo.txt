@@ -1,0 +1,3 @@
+next:
+get audio source in menu
+read in frequencies
